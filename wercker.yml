@@ -1,0 +1,15 @@
+box: wercker/rvm
+services:
+  - wercker/mysql
+build:
+  steps:
+    - rvm-use:
+        version: 2.1.3
+    - bundle-install
+    - rails-database-yml
+    - script:
+        name: Set up db
+        code: bundle exec rake db:setup
+    - script:
+        name: rake spec
+        code: bundle exec rake spec
