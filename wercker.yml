@@ -12,7 +12,7 @@ build:
         code: sed -i -e 's/utf8$/utf8mb4/g' config/database.yml
     - script:
         name: Set up db
-        code: bundle exec rake db:setup
+        code: bundle exec rake db:migrate:reset
     - script:
         name: rake spec
         code: bundle exec rake spec
