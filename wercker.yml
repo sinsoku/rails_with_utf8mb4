@@ -1,6 +1,6 @@
 box: wercker/rvm
 services:
-  - wercker/mysql
+  - sinsoku/mysql
 build:
   steps:
     - rvm-use:
@@ -8,8 +8,14 @@ build:
     - bundle-install
     - rails-database-yml
     - script:
-        name: Update utf8mb4
+        name: Replace encoding on database.yml
         code: sed -i -e 's/utf8$/utf8mb4/g' config/database.yml
+    - script:
+        name: export MYSQL_CMD
+        code: export MYSQL_CMD="mysql -u root -p$WERCKER_MYSQL_PASSWORD -h $WERCKER_MYSQL_HOST -D $WERCKER_MYSQL_DATABASE"
+    - script:
+        name: Update variables on mysql
+        code: $MYSQL_CMD -e "SET GLOBAL innodb_file_format=barracuda, innodb_large_prefix=true;"
     - script:
         name: Set up db
         code: bundle exec rake db:migrate:reset
