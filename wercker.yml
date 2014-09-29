@@ -12,7 +12,7 @@ build:
         code: sed -i -e 's/utf8$/utf8mb4/g' config/database.yml
     - script:
         name: export MYSQL_CMD
-        code: export MYSQL_CMD="mysql -u $WERCKER_MYSQL_USERNAME -p$WERCKER_MYSQL_PASSWORD -h $WERCKER_MYSQL_HOST -D $WERCKER_MYSQL_DATABASE"
+        code: export MYSQL_CMD="mysql -u root -p$WERCKER_MYSQL_PASSWORD -h $WERCKER_MYSQL_HOST -D $WERCKER_MYSQL_DATABASE"
     - script:
         name: Update variables on mysql
         code: $MYSQL_CMD -e "SET GLOBAL innodb_file_format=barracuda, innodb_large_prefix=true;"
